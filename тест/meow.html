@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Простой пример</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+    }
+    
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Выберите тип и элемент</h3>
+  
+  <label for="type">Тип:</label>
+  <select id="type">
+    <option value="">-- Выберите --</option>
+    <option value="car">Автомобиль</option>
+    <option value="animal">Животное</option>
+    <option value="color">Цвет</option>
+  </select>
+  
+  <label id="elementLabel" for="element">-- Выберите тип выше --</label>
+  <select id="element">
+    <option value="">-- Тип не выбран --</option>
+  </select>
+
+  <script>
+    const data = {
+      car: {
+        label: 'Выберите марку автомобиля:',
+        items: ['BMW', 'Mercedes', 'Audi', 'Toyota', 'Honda']
+      },
+      animal: {
+        label: 'Выберите животное:',
+        items: ['Собака', 'Кошка', 'Попугай', 'Рыбка', 'Хомяк']
+      },
+      color: {
+        label: 'Выберите цвет:',
+        items: ['Красный', 'Синий', 'Зелёный', 'Жёлтый', 'Чёрный']
+      }
+    };
+
+    const typeSelect = document.getElementById('type');
+    const elementSelect = document.getElementById('element');
+    const elementLabel = document.getElementById('elementLabel');
+
+    typeSelect.addEventListener('change', function() {
+      const type = this.value;
+      
+      if (type && data[type]) {
+        // Меняем название
+        elementLabel.textContent = data[type].label;
+        
+        // Очищаем и заполняем дропдаун
+        elementSelect.innerHTML = '';
+        elementSelect.innerHTML = `<option value="">-- ${data[type].label.replace(':', '')} --</option>`;
+        
+        data[type].items.forEach(item => {
+          elementSelect.add(new Option(item, item.toLowerCase()));
+        });
+        
+      } else {
+        // Возвращаем исходное состояние
+        elementLabel.textContent = '-- Выберите тип выше --';
+        elementSelect.innerHTML = '<option value="">-- Тип не выбран --</option>';
+      }
+    });
+  </script>
+</body>
+</html>
